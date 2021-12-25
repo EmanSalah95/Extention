@@ -31,6 +31,9 @@ var secStr;
 var minStr;
 var hrStr;
 
+var totalSecondsInMin = 0;
+var totalSeconds;
+
 function timerFunc() {
   var sec = 0;
   var min = 0;
@@ -39,6 +42,7 @@ function timerFunc() {
   timer = setInterval(function () {
     startBtn.innerText = `${min}:${sec}`;
     if (sec == 60) {
+      totalSecondsInMin += sec;
       sec = 0;
 
       min++;
@@ -49,6 +53,7 @@ function timerFunc() {
         hr++;
       }
     }
+
     secStr = '0' + sec;
     minStr = '0' + min;
     hrStr = '0' + hr;
@@ -77,15 +82,39 @@ function timerFunc() {
 
     startBtn.innerText = `${hrStr}:${minStr}:${secStr}`;
     sec++;
+    totalSeconds = totalSecondsInMin + sec - 1;
   }, 1000);
 }
 
-// var totalTime = document.getElementById('time');
 var date;
 var inputValue;
 var main = document.getElementById('main');
+var tasks = document.createElement('div');
+tasks.id = 'tasks';
+
+var tasksObj = {};
+var tasksArr = [];
 
 function addTimeToDOM() {
+  var d = new Date();
+  createElements(d.toDateString(), stopAt, input.value);
+
+  tasksArr.push(tasksObj);
+
+  localStorage.setItem('tasks', JSON.stringify(tasksArr));
+}
+
+window.onload = function () {
+  if (localStorage.getItem('tasks')) {
+    tasksArr = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  for (var item of tasksArr) {
+    createElements(item.date, item.time, item.task);
+  }
+};
+
+function createElements(dateArg, timeArg, taskArg) {
   if (!main.children[0]) {
     var dateHeader = document.createElement('div');
     dateHeader.className = 'date-header';
@@ -93,21 +122,13 @@ function addTimeToDOM() {
     var dateDiv = document.createElement('div');
     dateDiv.id = 'date';
 
-    var d = new Date();
-    dateDiv.textContent = d.toDateString();
-
-    var timeDiv = document.createElement('div'); // Total time
-    timeDiv.id = 'time';
-
-    timeDiv.innerHTML = `<span>Total: </span> 00:00:00`;
+    dateDiv.textContent = dateArg;
+    tasksObj.date = dateDiv.textContent;
 
     dateHeader.appendChild(dateDiv);
-    dateHeader.appendChild(timeDiv);
 
     main.appendChild(dateHeader);
   }
-
-  var tasks = document.createElement('div');
 
   var taskCard = document.createElement('div');
   taskCard.className = 'task-card';
@@ -120,17 +141,18 @@ function addTimeToDOM() {
   var projectName = document.createElement('p');
   projectName.className = 'project-name';
 
-  if (input.value === '') {
+  if (taskArg === '') {
     taskDescription.textContent = 'No title';
   } else {
-    taskDescription.textContent = input.value;
+    taskDescription.textContent = taskArg;
   }
+
   projectName.textContent = 'JavaScript Project';
 
   var time = document.createElement('div');
   time.className = 'time';
 
-  time.textContent = stopAt;
+  time.textContent = timeArg; //
 
   task.appendChild(taskDescription);
   task.appendChild(projectName);
@@ -141,4 +163,7 @@ function addTimeToDOM() {
   tasks.appendChild(taskCard);
 
   main.appendChild(tasks);
+
+  tasksObj.task = taskDescription.textContent;
+  tasksObj.time = time.textContent;
 }
