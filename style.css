@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #eff4f7;
+  min-width: 360px;
+  height: fit-content;
+  min-height: 500px;
+}
+
+.header-container {
+  position: fixed;
+  width: 100%;
+  padding: 15px;
+  z-index: 1;
+  background-color: #eff4f7;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo img {
+  width: 100px;
+}
+
+.right-side-icons .fas {
+  font-size: 1.2rem;
+  padding-right: 1rem;
+  color: #9eb0b9;
+}
+
+.input {
+  border: 1px solid #c6d2d9;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  height: 55px;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+.input > * {
+  border: 0;
+  outline: 0;
+}
+
+.input input {
+  width: 75%;
+}
+
+.input .start-btn {
+  background-color: #03a9f4;
+  color: #fff;
+  text-transform: uppercase;
+  width: 25%;
+  cursor: pointer;
+}
+
+main {
+  position: absolute;
+  top: 6rem;
+  padding: 15px;
+  box-shadow: inset 0 1rem 1rem #e3e8ea;
+  margin-top: 1.4rem;
+  padding-top: 3rem;
+  width: 100%;
+}
+
+.date-header {
+  background-color: #e4eaee;
+  border: 1px solid #c6d2d9;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.date-header .time span {
+  color: #99afcd;
+}
+
+#tasks {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.task-card {
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #c6d2d9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
