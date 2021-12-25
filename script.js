@@ -47,10 +47,6 @@ function timerFunc() {
         min = 0;
 
         hr++;
-
-        if (hr == 60) {
-          hr = 0;
-        }
       }
     }
     secStr = '0' + sec;
@@ -84,9 +80,34 @@ function timerFunc() {
   }, 1000);
 }
 
+// var totalTime = document.getElementById('time');
+var date;
 var inputValue;
+var main = document.getElementById('main');
+
 function addTimeToDOM() {
-  var tasks = document.getElementById('tasks');
+  if (!main.children[0]) {
+    var dateHeader = document.createElement('div');
+    dateHeader.className = 'date-header';
+
+    var dateDiv = document.createElement('div');
+    dateDiv.id = 'date';
+
+    var d = new Date();
+    dateDiv.textContent = d.toDateString();
+
+    var timeDiv = document.createElement('div'); // Total time
+    timeDiv.id = 'time';
+
+    timeDiv.innerHTML = `<span>Total: </span> 00:00:00`;
+
+    dateHeader.appendChild(dateDiv);
+    dateHeader.appendChild(timeDiv);
+
+    main.appendChild(dateHeader);
+  }
+
+  var tasks = document.createElement('div');
 
   var taskCard = document.createElement('div');
   taskCard.className = 'task-card';
@@ -99,7 +120,11 @@ function addTimeToDOM() {
   var projectName = document.createElement('p');
   projectName.className = 'project-name';
 
-  taskDescription.textContent = input.value;
+  if (input.value === '') {
+    taskDescription.textContent = 'No title';
+  } else {
+    taskDescription.textContent = input.value;
+  }
   projectName.textContent = 'JavaScript Project';
 
   var time = document.createElement('div');
@@ -114,4 +139,6 @@ function addTimeToDOM() {
   taskCard.appendChild(time);
 
   tasks.appendChild(taskCard);
+
+  main.appendChild(tasks);
 }
